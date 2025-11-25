@@ -187,21 +187,31 @@ for (let i = 0; i < 12; i++) {
 }
 
 // ספרות
-const clockSize = clock.offsetWidth;
-const radius = clockSize * 0.38;
+function positionNumbers() {
+  const numbers = document.querySelectorAll('.number');
+  const clockSize = clock.offsetWidth;
+  const radius = clockSize * 0.38;
+  
+  numbers.forEach((num, index) => {
+    const i = index + 1;
+    const angle = (i - 3) * 30 * Math.PI / 180;
+    const x = clockSize / 2 + radius * Math.cos(angle);
+    const y = clockSize / 2 + radius * Math.sin(angle);
+    num.style.left = `${x}px`;
+    num.style.top = `${y}px`;
+  });
+}
 
 for (let i = 1; i <= 12; i++) {
   const num = document.createElement('div');
   num.className = 'number';
   num.textContent = i;
-  const angle = (i - 3) * 30 * Math.PI / 180;
-  const x = clockSize / 2 + radius * Math.cos(angle);
-  const y = clockSize / 2 + radius * Math.sin(angle);
-  num.style.left = `${x}px`;
-  num.style.top = `${y}px`;
   num.style.transform = 'translate(-50%, -50%)';
   clock.appendChild(num);
 }
+
+positionNumbers();
+window.addEventListener('resize', positionNumbers);
 
 // עדכון השעון
 function updateClock() {
